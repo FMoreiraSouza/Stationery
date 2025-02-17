@@ -1,6 +1,6 @@
-package com.example.Stationery.supplier.repository
+package com.example.stationery.supplier.repository
 
-import com.example.Stationery.supplier.entity.SupplierEntity
+import com.example.stationery.supplier.entity.SupplierEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface SupplierRepository : JpaRepository<SupplierEntity, Long>

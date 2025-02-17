@@ -1,7 +1,7 @@
-package com.example.Stationery.product.service
+package com.example.stationery.product.service
 
-import com.example.Stationery.product.entity.ProductEntity
-import com.example.Stationery.product.repository.ProductRepository
+import com.example.stationery.product.entity.ProductEntity
+import com.example.stationery.product.repository.ProductRepository
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 

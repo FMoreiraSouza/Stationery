@@ -1,6 +1,6 @@
-package com.example.Stationery.product.entity
+package com.example.stationery.product.entity
 
-import com.example.Stationery.supplier.entity.SupplierEntity
+import com.example.stationery.supplier.entity.SupplierEntity
 import jakarta.persistence.*
 
 @Entity

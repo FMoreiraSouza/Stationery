@@ -1,7 +1,7 @@
-package com.example.Stationery.supplier.service
+package com.example.stationery.supplier.service
 
-import com.example.Stationery.supplier.entity.SupplierEntity
-import com.example.Stationery.supplier.repository.SupplierRepository
+import com.example.stationery.supplier.entity.SupplierEntity
+import com.example.stationery.supplier.repository.SupplierRepository
 import org.springframework.stereotype.Service
 
 @Service

@@ -1,9 +1,9 @@
-package com.example.Stationery.product.controller
+package com.example.stationery.product.controller
 
-import com.example.Stationery.product.controller.dto.ProductDTO
-import com.example.Stationery.product.entity.ProductEntity
-import com.example.Stationery.product.service.ProductService
-import com.example.Stationery.supplier.controller.dto.SupplierDTO
+import com.example.stationery.product.controller.dto.ProductDTO
+import com.example.stationery.product.entity.ProductEntity
+import com.example.stationery.product.service.ProductService
+import com.example.stationery.supplier.controller.dto.SupplierDTO
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

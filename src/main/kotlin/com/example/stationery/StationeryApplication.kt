@@ -1,4 +1,4 @@
-package com.example.Stationery
+package com.example.stationery
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

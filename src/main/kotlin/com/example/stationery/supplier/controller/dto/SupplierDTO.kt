@@ -1,6 +1,6 @@
-package com.example.Stationery.supplier.controller.dto
+package com.example.stationery.supplier.controller.dto
 
-import com.example.Stationery.product.controller.dto.ProductDTO
+import com.example.stationery.product.controller.dto.ProductDTO
 
 data class SupplierDTO(
     val id: Long,

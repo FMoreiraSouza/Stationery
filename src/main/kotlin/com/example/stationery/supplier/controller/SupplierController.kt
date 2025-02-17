@@ -1,9 +1,9 @@
-package com.example.Stationery.supplier.controller
+package com.example.stationery.supplier.controller
 
-import com.example.Stationery.product.controller.dto.ProductDTO
-import com.example.Stationery.supplier.controller.dto.SupplierDTO
-import com.example.Stationery.supplier.entity.SupplierEntity
-import com.example.Stationery.supplier.service.SupplierService
+import com.example.stationery.product.controller.dto.ProductDTO
+import com.example.stationery.supplier.controller.dto.SupplierDTO
+import com.example.stationery.supplier.entity.SupplierEntity
+import com.example.stationery.supplier.service.SupplierService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

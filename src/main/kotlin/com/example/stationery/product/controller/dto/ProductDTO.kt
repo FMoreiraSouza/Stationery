@@ -1,4 +1,4 @@
-package com.example.Stationery.product.controller.dto
+package com.example.stationery.product.controller.dto
 
 data class ProductDTO(
     val id: Long,
