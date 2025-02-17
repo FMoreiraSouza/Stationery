@@ -9,8 +9,8 @@ data class SupplierEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    var name: String? = null,  // Tornando name e contact opcionais
-    var contact: String? = null,  // Tornando name e contact opcionais
+    var name: String? = null,
+    var contact: String? = null,
 
     @OneToMany(mappedBy = "supplier", cascade = [CascadeType.ALL])
     val productEntities: List<ProductEntity> = mutableListOf()

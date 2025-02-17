@@ -2,7 +2,6 @@ package com.example.Stationery.product.service
 
 import com.example.Stationery.product.entity.ProductEntity
 import com.example.Stationery.product.repository.ProductRepository
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 

@@ -42,7 +42,6 @@ class SupplierController(private val supplierService: SupplierService) {
             contact = supplier.contact!!,
             products = productDTOs
         )
-
         return ResponseEntity.ok(supplierDTO)
     }
 }
