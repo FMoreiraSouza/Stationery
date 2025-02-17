@@ -32,12 +32,7 @@ class SupplierController(private val supplierService: SupplierService) {
                 description = product.description,
                 price = product.price,
                 stock = product.stock,
-                supplier = SupplierDTO(
-                    id = product.supplier.id!!,
-                    name = product.supplier.name!!,
-                    contact = product.supplier.contact!!,
-
-                    )
+                supplier = product.supplier.id,
             )
         }
 

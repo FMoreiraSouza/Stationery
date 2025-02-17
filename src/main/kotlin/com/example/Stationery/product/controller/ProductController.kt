@@ -4,7 +4,6 @@ import com.example.Stationery.product.controller.dto.ProductDTO
 import com.example.Stationery.product.entity.ProductEntity
 import com.example.Stationery.product.service.ProductService
 import com.example.Stationery.supplier.controller.dto.SupplierDTO
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,50 +13,29 @@ import org.springframework.web.bind.annotation.*
 class ProductController(private val productService: ProductService) {
 
     @GetMapping
-    fun getAllProducts(): List<ProductDTO> {
-        return productService.getAllProducts().map { product ->
-            ProductDTO(
-                id = product.id!!,
-                name = product.name,
-                description = product.description,
-                price = product.price,
-                stock = product.stock,
-                supplier = SupplierDTO(
-                    id = product.supplier.id!!,
-                    name = product.supplier.name!!,
-                    contact = product.supplier.contact!!,
-                )
-            )
-        }
-    }
-
-    @GetMapping("/filter")
-    fun getFilteredAndSortedProducts(
-        @RequestParam(name = "name", required = false) name: String?,
-        @RequestParam(name = "sortBy", defaultValue = "name") sortBy: String,
+    fun getSortedProducts(
         @RequestParam(name = "sortOrder", defaultValue = "ASC") sortOrder: String
     ): ResponseEntity<List<ProductDTO>> {
-        val sortDirection = if (sortOrder.equals("DESC", true)) Sort.Direction.DESC else Sort.Direction.ASC
-        val pageRequest = PageRequest.of(0, 100, Sort.by(sortDirection, sortBy))
-        val filteredProducts = productService.getFilteredProductsByName(name, pageRequest)
+        val sortDirection = if (sortOrder.equals("DESC", ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
+        val sort = Sort.by(sortDirection, "id")
 
-        val productDTOs = filteredProducts.map { product ->
+        val sortedProducts = productService.getAllProducts(sort)
+
+        val productDTOs = sortedProducts.map { product ->
             ProductDTO(
                 id = product.id!!,
                 name = product.name,
                 description = product.description,
                 price = product.price,
                 stock = product.stock,
-                supplier = SupplierDTO(
-                    id = product.supplier.id!!,
-                    name = product.supplier.name!!,
-                    contact = product.supplier.contact!!,
-                    )
+                supplier = product.supplier.id!!
             )
         }
 
         return ResponseEntity.ok(productDTOs)
     }
+
+
 
     @GetMapping("/{id}")
     fun getProductById(@PathVariable id: Long): ResponseEntity<ProductDTO> {
@@ -77,7 +55,6 @@ class ProductController(private val productService: ProductService) {
         )
         return ResponseEntity.ok(productDTO)
     }
-
     @PostMapping
     fun createProduct(@RequestBody productEntity: ProductEntity): ResponseEntity<ProductDTO> {
         val createdProduct = productService.createProduct(productEntity)
@@ -87,8 +64,7 @@ class ProductController(private val productService: ProductService) {
             description = createdProduct.description,
             price = createdProduct.price,
             stock = createdProduct.stock,
-            supplier = SupplierDTO(
-                id = createdProduct.supplier.id!!)
+            supplier = createdProduct.supplier.id!!
         )
         return ResponseEntity.ok(productDTO)
     }
@@ -102,7 +78,7 @@ class ProductController(private val productService: ProductService) {
             description = updatedProduct.description,
             price = updatedProduct.price,
             stock = updatedProduct.stock,
-            supplier = null
+            supplier =  updatedProduct.supplier.id,
         )
         return ResponseEntity.ok(productDTO)
     }

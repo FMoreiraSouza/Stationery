@@ -3,22 +3,15 @@ package com.example.Stationery.product.service
 import com.example.Stationery.product.entity.ProductEntity
 import com.example.Stationery.product.repository.ProductRepository
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
 class ProductService(private val productRepository: ProductRepository) {
 
-    fun getAllProducts(): List<ProductEntity> = productRepository.findAll()
-
-    fun getFilteredProductsByName(name: String?, pageRequest: PageRequest): List<ProductEntity> {
-        // Chama o repositório passando o nome do produto, que pode ser nulo
-        return if (name != null) {
-            productRepository.findByNameContaining(name, pageRequest)
-        } else {
-            productRepository.findAll(pageRequest).content
-        }
+    fun getAllProducts(sort: Sort): List<ProductEntity> {
+        return productRepository.findAll(sort)
     }
-
     fun getProductById(id: Long): ProductEntity =
         productRepository.findById(id).orElseThrow { RuntimeException("Product not found") }
 
