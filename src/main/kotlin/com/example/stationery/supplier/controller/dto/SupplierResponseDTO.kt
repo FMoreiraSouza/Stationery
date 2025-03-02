@@ -1,6 +1,5 @@
 package com.example.authServer.users.controller.responses
 
-import com.example.stationery.product.entity.ProductEntity
 import com.example.stationery.supplier.entity.SupplierEntity
 
 data class SupplierResponseDTO(

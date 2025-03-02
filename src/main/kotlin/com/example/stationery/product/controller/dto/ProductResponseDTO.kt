@@ -2,7 +2,9 @@ package com.example.authServer.users.controller.responses
 
 import com.example.stationery.product.entity.ProductEntity
 import com.example.stationery.supplier.entity.SupplierEntity
+import com.fasterxml.jackson.annotation.JsonInclude
 
+@JsonInclude(JsonInclude.Include.NON_NULL) // Exclui campos null
 data class ProductResponseDTO(
     val id: Long,
     val name: String,
