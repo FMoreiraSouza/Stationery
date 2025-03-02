@@ -1,10 +1,11 @@
 package com.example.stationery.product.controller
 
-import com.example.stationery.product.controller.dto.ProductDTO
+import com.example.authServer.users.controller.responses.ProductResponseDTO
+import com.example.stationery.product.controller.dto.ProductRequestDTO
 import com.example.stationery.product.entity.ProductEntity
 import com.example.stationery.product.service.ProductService
-import com.example.stationery.supplier.controller.dto.SupplierDTO
 import org.springframework.data.domain.Sort
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -15,72 +16,46 @@ class ProductController(private val productService: ProductService) {
     @GetMapping
     fun getSortedProducts(
         @RequestParam(name = "sortOrder", defaultValue = "ASC") sortOrder: String
-    ): ResponseEntity<List<ProductDTO>> {
+    ): ResponseEntity<List<ProductResponseDTO>> {
         val sortDirection = if (sortOrder.equals("DESC", ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val sort = Sort.by(sortDirection, "id")
 
         val sortedProducts = productService.getAllProducts(sort)
 
-        val productDTOs = sortedProducts.map { product ->
-            ProductDTO(
-                id = product.id!!,
-                name = product.name,
-                description = product.description,
-                price = product.price,
-                stock = product.stock,
-                supplier = product.supplier.id!!
-            )
-        }
+        val products = sortedProducts
+            .map { ProductResponseDTO(it) }
+            .let { ResponseEntity.ok(it) }
 
-        return ResponseEntity.ok(productDTOs)
+        return products
     }
-
 
 
     @GetMapping("/{id}")
-    fun getProductById(@PathVariable id: Long): ResponseEntity<ProductDTO> {
+    fun getProductById(@PathVariable id: Long): ResponseEntity<ProductResponseDTO> {
         val product = productService.getProductById(id)
-        val productDTO = ProductDTO(
-            id = product.id!!,
-            name = product.name,
-            description = product.description,
-            price = product.price,
-            stock = product.stock,
-            supplier = SupplierDTO(
-                id = product.supplier.id!!,
-                name = product.supplier.name!!,
-                contact = product.supplier.contact!!,
-
-                )
-        )
-        return ResponseEntity.ok(productDTO)
+        return product
+            .let { ProductResponseDTO(it) }
+            .let { ResponseEntity.ok(it) }
     }
+
+
     @PostMapping
-    fun createProduct(@RequestBody productEntity: ProductEntity): ResponseEntity<ProductDTO> {
-        val createdProduct = productService.createProduct(productEntity)
-        val productDTO = ProductDTO(
-            id = createdProduct.id!!,
-            name = createdProduct.name,
-            description = createdProduct.description,
-            price = createdProduct.price,
-            stock = createdProduct.stock,
-            supplier = createdProduct.supplier.id!!
-        )
-        return ResponseEntity.ok(productDTO)
+    fun createProduct(@RequestBody product: ProductRequestDTO): ResponseEntity<ProductResponseDTO> {
+        val createdProduct = productService.createProduct(product.toProduct())
+        return createdProduct
+            .let { ProductResponseDTO(it) }
+            .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
     }
 
     @PutMapping("/{id}")
-    fun updateProduct(@PathVariable id: Long, @RequestBody productEntity: ProductEntity): ResponseEntity<ProductDTO> {
+    fun updateProduct(
+        @PathVariable id: Long,
+        @RequestBody productEntity: ProductEntity
+    ): ResponseEntity<ProductResponseDTO> {
         val updatedProduct = productService.updateProduct(id, productEntity)
-        val productDTO = ProductDTO(
-            id = updatedProduct.id!!,
-            name = updatedProduct.name,
-            description = updatedProduct.description,
-            price = updatedProduct.price,
-            stock = updatedProduct.stock,
-            supplier =  updatedProduct.supplier.id,
-        )
-        return ResponseEntity.ok(productDTO)
+            return updatedProduct
+            .let { ProductResponseDTO(it) }
+            .let { ResponseEntity.ok(it) }
     }
 
     @DeleteMapping("/{id}")
