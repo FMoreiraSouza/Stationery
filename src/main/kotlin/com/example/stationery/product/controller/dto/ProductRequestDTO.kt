@@ -21,13 +21,11 @@ data class ProductRequestDTO(
     @PositiveOrZero(message = "O estoque do produto não pode ser negativo")
     val stock: Int,
 
-    val supplier: SupplierEntity?
 ) {
     fun toProduct() = ProductEntity(
         name = name,
         description = description,
         price = price,
-        stock = stock,
-        supplier = supplier,
+        stock = stock
     )
 }

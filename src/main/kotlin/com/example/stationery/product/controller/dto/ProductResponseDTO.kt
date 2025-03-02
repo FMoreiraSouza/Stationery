@@ -8,13 +8,13 @@ data class ProductResponseDTO(
     val name: String,
     val price: Double,
     val stock: Int,
-    val supplier: SupplierEntity?
+    val supplier: SupplierResponseDTO? // Novo campo para o fornecedor
 ) {
     constructor(product: ProductEntity) : this(
         id = product.id!!,
-         product.name,
-        product.price,
-        product.stock,
-        product.supplier
+        name = product.name,
+        price = product.price,
+        stock = product.stock,
+        supplier = product.supplier?.let { SupplierResponseDTO(it) } // Preenche o fornecedor se não for nulo
     )
 }

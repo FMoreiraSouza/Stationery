@@ -7,12 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class SupplierService(private val supplierRepository: SupplierRepository) {
 
-    fun createSupplier(supplierEntity: SupplierEntity): SupplierEntity {
-        return supplierRepository.save(supplierEntity)
-    }
+    fun createSupplier(supplierEntity: SupplierEntity): SupplierEntity = supplierRepository.save(supplierEntity)
 
-    fun getSupplierById(id: Long): SupplierEntity {
-        return supplierRepository.findById(id).orElseThrow { IllegalArgumentException("Supplier not found") }
-    }
-
+    fun findAllSuppliers(): List<SupplierEntity> = supplierRepository.findAll()
 }

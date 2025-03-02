@@ -29,7 +29,6 @@ class ProductController(private val productService: ProductService) {
         return products
     }
 
-
     @GetMapping("/{id}")
     fun getProductById(@PathVariable id: Long): ResponseEntity<ProductResponseDTO> {
         val product = productService.getProductById(id)
@@ -57,6 +56,18 @@ class ProductController(private val productService: ProductService) {
             .let { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
     }
+
+    @PutMapping("/{productId}/associate")
+    fun associateProductWithSupplier(
+        @PathVariable productId: Long,
+        @RequestParam supplierId: Long
+    ): ResponseEntity<ProductResponseDTO> {
+        val updatedProduct = productService.associateProductWithSupplier(productId, supplierId)
+        return updatedProduct
+            .let { ProductResponseDTO(it) }
+            .let { ResponseEntity.ok(it) }
+    }
+
 
     @DeleteMapping("/{id}")
     fun deleteProduct(@PathVariable id: Long): ResponseEntity<Void> {
