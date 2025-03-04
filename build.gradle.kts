@@ -19,6 +19,8 @@ repositories {
 	mavenCentral()
 }
 
+val jjwt = "0.12.6"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -26,6 +28,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("com.h2database:h2:2.3.232")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("io.jsonwebtoken:jjwt-api:${jjwt}")
+	implementation("io.jsonwebtoken:jjwt-jackson:${jjwt}")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:${jjwt}")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
