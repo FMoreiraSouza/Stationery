@@ -4,9 +4,11 @@ import com.example.authServer.users.controller.responses.ProductResponseDTO
 import com.example.stationery.product.controller.dto.ProductRequestDTO
 import com.example.stationery.product.entity.ProductEntity
 import com.example.stationery.product.service.ProductService
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -39,6 +41,8 @@ class ProductController(private val productService: ProductService) {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun createProduct(@RequestBody product: ProductRequestDTO): ResponseEntity<ProductResponseDTO> {
         val createdProduct = productService.createProduct(product.toProduct())
         return createdProduct
@@ -47,6 +51,8 @@ class ProductController(private val productService: ProductService) {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun updateProduct(
         @PathVariable id: Long,
         @RequestBody productEntity: ProductEntity
@@ -58,6 +64,8 @@ class ProductController(private val productService: ProductService) {
     }
 
     @PutMapping("/{productId}/associate")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun associateProductWithSupplier(
         @PathVariable productId: Long,
         @RequestParam supplierId: Long
@@ -70,6 +78,8 @@ class ProductController(private val productService: ProductService) {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun deleteProduct(@PathVariable id: Long): ResponseEntity<Void> {
         productService.deleteProduct(id)
         return ResponseEntity.noContent().build()

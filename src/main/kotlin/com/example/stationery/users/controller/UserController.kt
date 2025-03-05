@@ -9,6 +9,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,12 +17,21 @@ import org.springframework.web.bind.annotation.*
 class UserController(val userService: UserService) {
 
     @PostMapping
-    fun insert(@RequestBody @Valid user: UserRequestDTO) =
-        userService.insert(user.toUser())
-            .let { UserResponseDTO(it) }
-            .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+    @SecurityRequirement(name = "StationeryServer")
+    fun insert(@RequestBody @Valid userDTO: UserRequestDTO, authentication: Authentication?): ResponseEntity<UserResponseDTO> {
+        if (authentication != null && authentication.authorities.any { it.authority == "ROLE_ADMIN" }) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
+        }
+
+        val user = userDTO.toUser(userService.roleService)
+        val savedUser = userService.insert(user)
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDTO(savedUser))
+    }
+
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun findAll(
         @RequestParam role: String? = null
     ): ResponseEntity<List<UserResponseDTO>> {
@@ -29,13 +39,6 @@ class UserController(val userService: UserService) {
             .map { UserResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
     }
-
-    @PutMapping(("/{id}/roles/{role}"))
-    @PreAuthorize("hasRole('ADMIN')")
-    @SecurityRequirement(name = "StationeryServer")
-    fun grant(@PathVariable id: Long, @PathVariable role: String): ResponseEntity<Void> =
-        if (userService.addRole(id, role)) ResponseEntity.ok().build()
-        else ResponseEntity.noContent().build()
 
     @PostMapping("/login")
     fun login(@Valid @RequestBody user: LoginRequestDTO) =

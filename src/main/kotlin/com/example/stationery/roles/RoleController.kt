@@ -26,5 +26,7 @@ class RoleController(
         }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "StationeryServer")
     fun findAll() = roleService.findAll()
 }

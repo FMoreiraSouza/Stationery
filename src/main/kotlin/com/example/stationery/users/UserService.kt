@@ -16,10 +16,11 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     val userRepository: UserRepository,
-    private val roleService: RoleService,
+    val roleService: RoleService,
     private val jwt: JWT
 ) {
     fun insert(user: User): User = userRepository.save(user)
+
     fun findAll(role: String?): List<User> {
         if(!role.isNullOrBlank())
             return userRepository.findByRole(role)
