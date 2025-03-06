@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service
 class RoleService(
     val roleRepository: RoleRepository
 ) {
-    fun save(role: Role) = roleRepository.save(role)
-    fun findAll() = roleRepository.findAll(Sort.by("name"))
+    fun findAll(): MutableList<Role> = roleRepository.findAll(Sort.by("name"))
     fun findByNameOrNull(name: String) = roleRepository.findByIdOrNull(name)
 }
 

@@ -27,8 +27,8 @@ class UserService(
         return userRepository.findAll(Sort.by(("name")))
     }
 
-
     fun findByIdOrNull(id: Long): User? = userRepository.findByIdOrNull(id)
+
     fun delete(id: Long): Unit = userRepository.deleteById(id)
 
     fun addRole(id: Long, roleName: String): Boolean {

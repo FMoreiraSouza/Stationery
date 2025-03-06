@@ -26,7 +26,7 @@ class ProductService(
 
     fun createProduct(productEntity: ProductEntity): ProductEntity = productRepository.save(productEntity)
 
-    fun updateProduct(id: Long, updatedProductEntity: ProductEntity): ProductEntity {
+    fun restockingProduct(id: Long, updatedProductEntity: ProductEntity): ProductEntity {
         val existingProduct = getProductById(id)
         val productToSave = existingProduct.copy(
             name = updatedProductEntity.name,
@@ -36,6 +36,20 @@ class ProductService(
         )
         return productRepository.save(productToSave)
     }
+
+    fun purchaseProduct(id: Long, quantity: Int): ProductEntity {
+        val existingProduct = getProductById(id)
+
+        if (existingProduct.stock < quantity) {
+            throw IllegalArgumentException("Estoque insuficiente para realizar a compra")
+        }
+
+        val newStock = existingProduct.stock - quantity
+        val productToSave = existingProduct.copy(stock = newStock)
+
+        return productRepository.save(productToSave)
+    }
+
 
     fun associateProductWithSupplier(productId: Long, supplierId: Long): ProductEntity {
         // Buscar o produto pelo id

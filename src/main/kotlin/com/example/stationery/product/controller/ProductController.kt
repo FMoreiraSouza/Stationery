@@ -50,17 +50,32 @@ class ProductController(private val productService: ProductService) {
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/restocking")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "StationeryServer")
-    fun updateProduct(
+    fun restockingProduct(
         @PathVariable id: Long,
         @RequestBody productEntity: ProductEntity
     ): ResponseEntity<ProductResponseDTO> {
-        val updatedProduct = productService.updateProduct(id, productEntity)
-            return updatedProduct
+        val updatedProduct = productService.restockingProduct(id, productEntity)
+        return updatedProduct
             .let { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
+    }
+
+    @PutMapping("/{id}/purchase")
+    @PreAuthorize("hasRole('USER')")
+    @SecurityRequirement(name = "StationeryServer")
+    fun purchaseProduct(
+        @PathVariable id: Long,
+        @RequestParam quantity: Int
+    ): ResponseEntity<ProductResponseDTO> {
+        try {
+            val updatedProduct = productService.purchaseProduct(id, quantity)
+            return ResponseEntity.ok(ProductResponseDTO(updatedProduct))
+        } catch (e: IllegalArgumentException) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+        }
     }
 
     @PutMapping("/{productId}/associate")

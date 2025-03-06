@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*
 class UserController(val userService: UserService) {
 
     @PostMapping
-    @SecurityRequirement(name = "StationeryServer")
     fun insert(@RequestBody @Valid userDTO: UserRequestDTO, authentication: Authentication?): ResponseEntity<UserResponseDTO> {
         if (authentication != null && authentication.authorities.any { it.authority == "ROLE_ADMIN" }) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
@@ -27,7 +26,6 @@ class UserController(val userService: UserService) {
         val savedUser = userService.insert(user)
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponseDTO(savedUser))
     }
-
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
