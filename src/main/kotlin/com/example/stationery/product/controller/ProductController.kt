@@ -1,8 +1,8 @@
 package com.example.stationery.product.controller
 
-import com.example.authServer.users.controller.responses.ProductResponseDTO
 import com.example.stationery.product.controller.dto.ProductRequestDTO
-import com.example.stationery.product.entity.ProductEntity
+import com.example.stationery.product.controller.dto.ProductResponseDTO
+import com.example.stationery.product.entity.Product
 import com.example.stationery.product.service.ProductService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.data.domain.Sort
@@ -21,13 +21,10 @@ class ProductController(private val productService: ProductService) {
     ): ResponseEntity<List<ProductResponseDTO>> {
         val sortDirection = if (sortOrder.equals("DESC", ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
         val sort = Sort.by(sortDirection, "id")
-
         val sortedProducts = productService.getAllProducts(sort)
-
         val products = sortedProducts
             .map { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
-
         return products
     }
 
@@ -38,7 +35,6 @@ class ProductController(private val productService: ProductService) {
             .let { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
     }
-
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -55,9 +51,9 @@ class ProductController(private val productService: ProductService) {
     @SecurityRequirement(name = "StationeryServer")
     fun restockingProduct(
         @PathVariable id: Long,
-        @RequestBody productEntity: ProductEntity
+        @RequestBody product: Product
     ): ResponseEntity<ProductResponseDTO> {
-        val updatedProduct = productService.restockingProduct(id, productEntity)
+        val updatedProduct = productService.restockingProduct(id, product)
         return updatedProduct
             .let { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
@@ -90,7 +86,6 @@ class ProductController(private val productService: ProductService) {
             .let { ProductResponseDTO(it) }
             .let { ResponseEntity.ok(it) }
     }
-
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")

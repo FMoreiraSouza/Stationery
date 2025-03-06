@@ -1,7 +1,7 @@
 package com.example.stationery.supplier.controller
 
-import SupplierRequestDTO
-import com.example.authServer.users.controller.responses.SupplierResponseDTO
+import com.example.stationery.supplier.controller.dto.SupplierRequestDTO
+import com.example.stationery.supplier.controller.dto.SupplierResponseDTO
 import com.example.stationery.supplier.service.SupplierService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.ResponseEntity
@@ -28,5 +28,4 @@ class SupplierController(private val supplierService: SupplierService) {
         val createdSupplier = supplierService.createSupplier(supplier.toSupplier())
         return ResponseEntity.ok(SupplierResponseDTO(createdSupplier))
     }
-
 }

@@ -1,6 +1,6 @@
 package com.example.stationery.users
 
-import com.example.stationery.roles.Role
+import com.example.stationery.roles.entity.Role
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 

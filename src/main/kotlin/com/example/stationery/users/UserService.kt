@@ -2,7 +2,7 @@ package com.example.stationery.users
 
 
 
-import com.example.stationery.roles.RoleService
+import com.example.stationery.roles.service.RoleService
 import com.example.stationery.security.JWT
 import com.example.stationery.users.controller.dto.LoginResponseDTO
 import com.example.stationery.users.controller.dto.UserResponseDTO

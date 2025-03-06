@@ -1,7 +1,7 @@
 package com.example.stationery
 
-import com.example.stationery.roles.Role
-import com.example.stationery.roles.RoleRepository
+import com.example.stationery.roles.entity.Role
+import com.example.stationery.roles.repository.RoleRepository
 import com.example.stationery.users.User
 import com.example.stationery.users.UserRepository
 import org.springframework.beans.factory.annotation.Qualifier

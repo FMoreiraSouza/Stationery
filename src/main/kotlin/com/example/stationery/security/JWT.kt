@@ -6,64 +6,66 @@ import io.jsonwebtoken.jackson.io.JacksonDeserializer
 import io.jsonwebtoken.jackson.io.JacksonSerializer
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
-import org.hibernate.query.sqm.tree.SqmNode.log
-import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-
 import org.springframework.stereotype.Component
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Date
+import org.slf4j.LoggerFactory
 
 @Component
 class JWT(
-    val properties: TokenProperties
+    private val properties: TokenProperties
 ) {
-    fun createToken(user: User): String =
-        UserToken(user).let {
-            Jwts.builder().json(JacksonSerializer())
-                .signWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
-                .subject(user.id.toString())
-                .issuedAt(utcNow().toDate())
-                .expiration(
-                    utcNow().plusHours(
-                        if (it.isAdmin) properties.adminExpireHours else properties.expireHours
-                    ).toDate()
-                )
-                .issuer(properties.issuer)
-                .claim(USER_FIELD, it)
-                .compact()
-        }
+
+    private val logger = LoggerFactory.getLogger(JWT::class.java)
+
+    fun createToken(user: User): String {
+        val userToken = UserToken(user)
+        return Jwts.builder()
+            .json(JacksonSerializer())
+            .signWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
+            .subject(user.id.toString())
+            .issuedAt(utcNow().toDate())
+            .expiration(utcNow().plusHours(getExpirationHours(userToken)).toDate())
+            .issuer(properties.issuer)
+            .claim(USER_FIELD, userToken)
+            .compact()
+    }
 
     fun extract(req: HttpServletRequest): Authentication? {
-        try {
-            val header = req.getHeader(AUTHORIZATION)
-            if (header == null || !header.startsWith("Bearer ")) return null
-            val token = header.removePrefix("Bearer ")
-            if (token.isEmpty()) return null
-            val claims = Jwts.parser().json(JacksonDeserializer(mapOf(USER_FIELD to UserToken::class.java)))
-                .verifyWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
-                .build()
-                .parseSignedClaims(token).payload
+        val header = req.getHeader(HttpHeaders.AUTHORIZATION) ?: return null
+        if (!header.startsWith("Bearer ")) return null
+        val token = header.removePrefix("Bearer ").takeIf { it.isNotEmpty() } ?: return null
+        return try {
+            val claims = parseClaims(token)
             if (claims.issuer != properties.issuer) return null
-            return claims.get("user", UserToken::class.java).toAuthentication()
-        } catch (e: Throwable) {
-            log.warn("Token rejected", e)
-            return null
+            claims.get(USER_FIELD, UserToken::class.java)?.toAuthentication()
+        } catch (e: Exception) {
+            logger.warn("Token rejeitado", e)
+            null
         }
     }
+
+    private fun getExpirationHours(userToken: UserToken) =
+        if (userToken.isAdmin) properties.adminExpireHours else properties.expireHours
+
+    private fun parseClaims(token: String) =
+        Jwts.parser()
+            .json(JacksonDeserializer(mapOf(USER_FIELD to UserToken::class.java)))
+            .verifyWith(Keys.hmacShaKeyFor(properties.secret.toByteArray()))
+            .build()
+            .parseSignedClaims(token).payload
 
     companion object {
         const val USER_FIELD = "user"
         private fun utcNow() = ZonedDateTime.now(ZoneOffset.UTC)
         private fun ZonedDateTime.toDate(): Date = Date.from(this.toInstant())
-
         private fun UserToken.toAuthentication(): Authentication {
-            val authorities = this.roles.map {
-                SimpleGrantedAuthority("ROLE_${it.takeIf { it.startsWith("ROLE_") } ?: it}")
-            }
+            val authorities = roles.map { SimpleGrantedAuthority("ROLE_${it.takeIf { it.startsWith("ROLE_") } ?: it}") }
             return UsernamePasswordAuthenticationToken(this, id, authorities)
         }
     }

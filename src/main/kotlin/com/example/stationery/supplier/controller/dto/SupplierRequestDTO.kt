@@ -1,5 +1,6 @@
-import com.example.stationery.product.entity.ProductEntity
-import com.example.stationery.supplier.entity.SupplierEntity
+package com.example.stationery.supplier.controller.dto
+
+import com.example.stationery.supplier.entity.Supplier
 import jakarta.validation.constraints.NotBlank
 
 data class SupplierRequestDTO(
@@ -9,7 +10,7 @@ data class SupplierRequestDTO(
     @NotBlank(message = "O fornecedor deve ter uma forma de contato")
     val contact: String
 ){
-    fun toSupplier() = SupplierEntity(
+    fun toSupplier() = Supplier(
         name = name,
         contact = contact
     )

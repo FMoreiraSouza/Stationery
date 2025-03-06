@@ -14,7 +14,6 @@ data class UserToken(
         name = user.name,
         roles = user.roles.map{it.name}.toSortedSet()
     )
-
     @get: JsonIgnore
     val isAdmin: Boolean get() = "ADMIN" in roles
 }

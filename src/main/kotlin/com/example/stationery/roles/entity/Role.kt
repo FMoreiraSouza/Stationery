@@ -1,9 +1,8 @@
-package com.example.stationery.roles
+package com.example.stationery.roles.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import org.intellij.lang.annotations.Pattern
-
 
 @Entity
 class Role(

@@ -1,8 +1,6 @@
 package com.example.stationery.users.controller.dto
 
-import com.example.stationery.roles.Role
-import com.example.stationery.roles.RoleRepository
-import com.example.stationery.roles.RoleService
+import com.example.stationery.roles.service.RoleService
 import com.example.stationery.users.User
 import jakarta.persistence.EntityNotFoundException
 import jakarta.validation.constraints.NotBlank
