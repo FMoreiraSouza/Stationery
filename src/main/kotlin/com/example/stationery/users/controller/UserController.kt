@@ -1,9 +1,9 @@
 package com.example.stationery.users.controller
 
-import com.example.stationery.users.UserService
-import com.example.stationery.users.controller.dto.LoginRequestDTO
-import com.example.stationery.users.controller.dto.UserRequestDTO
-import com.example.stationery.users.controller.dto.UserResponseDTO
+import com.example.stationery.users.service.UserService
+import com.example.stationery.users.controller.dto.request.LoginRequestDTO
+import com.example.stationery.users.controller.dto.request.UserRequestDTO
+import com.example.stationery.users.controller.dto.response.UserResponseDTO
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus

@@ -1,4 +1,4 @@
-package com.example.stationery.supplier.controller.dto
+package com.example.stationery.supplier.controller.dto.request
 
 import com.example.stationery.supplier.entity.Supplier
 import jakarta.validation.constraints.NotBlank

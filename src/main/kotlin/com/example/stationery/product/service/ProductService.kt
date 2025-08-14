@@ -57,8 +57,6 @@ class ProductService(
         return productRepository.save(product)
     }
 
-
-
     fun deleteProduct(id: Long) {
         if (!productRepository.existsById(id)) {
             throw RuntimeException("Product not found")

@@ -1,7 +1,7 @@
-package com.example.stationery.users.controller.dto
+package com.example.stationery.users.controller.dto.request
 
 import com.example.stationery.roles.service.RoleService
-import com.example.stationery.users.User
+import com.example.stationery.users.entity.User
 import jakarta.persistence.EntityNotFoundException
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -26,5 +26,4 @@ data class UserRequestDTO(
             name = name!!
         ).apply { roles.add(roleUser) }
     }
-
 }

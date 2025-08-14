@@ -1,6 +1,6 @@
 package com.example.stationery.security
 
-import com.example.stationery.users.User
+import com.example.stationery.users.entity.User
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -15,7 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -52,7 +51,7 @@ class SecurityConfig(
                     .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
-                    .requestMatchers(antMatcher("h2-console/**")).permitAll()
+                    .requestMatchers(antMatcher("h2/**")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

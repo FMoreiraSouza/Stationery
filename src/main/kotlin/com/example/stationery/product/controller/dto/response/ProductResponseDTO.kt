@@ -1,7 +1,7 @@
-package com.example.stationery.product.controller.dto
+package com.example.stationery.product.controller.dto.response
 
 import com.example.stationery.product.entity.Product
-import com.example.stationery.supplier.controller.dto.SupplierResponseDTO
+import com.example.stationery.supplier.controller.dto.response.SupplierResponseDTO
 import com.fasterxml.jackson.annotation.JsonInclude
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
