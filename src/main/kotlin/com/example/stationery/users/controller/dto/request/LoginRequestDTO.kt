@@ -1,4 +1,4 @@
-package com.example.stationery.users.controller.dto
+package com.example.stationery.users.controller.dto.request
 
 import jakarta.validation.constraints.NotBlank
 

@@ -1,6 +1,6 @@
 package com.example.stationery.security
 
-import com.example.stationery.users.User
+import com.example.stationery.users.entity.User
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.jackson.io.JacksonDeserializer
 import io.jsonwebtoken.jackson.io.JacksonSerializer

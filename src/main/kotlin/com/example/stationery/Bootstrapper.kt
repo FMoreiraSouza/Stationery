@@ -2,8 +2,8 @@ package com.example.stationery
 
 import com.example.stationery.roles.entity.Role
 import com.example.stationery.roles.repository.RoleRepository
-import com.example.stationery.users.User
-import com.example.stationery.users.UserRepository
+import com.example.stationery.users.entity.User
+import com.example.stationery.users.repository.UserRepository
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent

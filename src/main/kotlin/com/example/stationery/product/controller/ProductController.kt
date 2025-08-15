@@ -1,7 +1,7 @@
 package com.example.stationery.product.controller
 
-import com.example.stationery.product.controller.dto.ProductRequestDTO
-import com.example.stationery.product.controller.dto.ProductResponseDTO
+import com.example.stationery.product.controller.dto.request.ProductRequestDTO
+import com.example.stationery.product.controller.dto.response.ProductResponseDTO
 import com.example.stationery.product.entity.Product
 import com.example.stationery.product.service.ProductService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -41,8 +41,7 @@ class ProductController(private val productService: ProductService) {
     @SecurityRequirement(name = "StationeryServer")
     fun createProduct(@RequestBody product: ProductRequestDTO): ResponseEntity<ProductResponseDTO> {
         val createdProduct = productService.createProduct(product.toProduct())
-        return createdProduct
-            .let { ProductResponseDTO(it) }
+        return ProductResponseDTO(createdProduct)
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
     }
 
@@ -54,8 +53,7 @@ class ProductController(private val productService: ProductService) {
         @RequestBody product: Product
     ): ResponseEntity<ProductResponseDTO> {
         val updatedProduct = productService.restockingProduct(id, product)
-        return updatedProduct
-            .let { ProductResponseDTO(it) }
+        return ProductResponseDTO(updatedProduct)
             .let { ResponseEntity.ok(it) }
     }
 
@@ -82,8 +80,7 @@ class ProductController(private val productService: ProductService) {
         @RequestParam supplierId: Long
     ): ResponseEntity<ProductResponseDTO> {
         val updatedProduct = productService.associateProductWithSupplier(productId, supplierId)
-        return updatedProduct
-            .let { ProductResponseDTO(it) }
+        return ProductResponseDTO(updatedProduct)
             .let { ResponseEntity.ok(it) }
     }
 

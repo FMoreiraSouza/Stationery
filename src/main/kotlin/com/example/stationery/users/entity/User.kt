@@ -1,4 +1,4 @@
-package com.example.stationery.users
+package com.example.stationery.users.entity
 
 import com.example.stationery.roles.entity.Role
 import jakarta.persistence.*

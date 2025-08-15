@@ -1,16 +1,13 @@
-package com.example.stationery.users
-
-
+package com.example.stationery.users.service
 
 import com.example.stationery.roles.service.RoleService
 import com.example.stationery.security.JWT
-import com.example.stationery.users.controller.dto.LoginResponseDTO
-import com.example.stationery.users.controller.dto.UserResponseDTO
-import jakarta.persistence.EntityNotFoundException
-import org.apache.coyote.BadRequestException
+import com.example.stationery.users.controller.dto.response.LoginResponseDTO
+import com.example.stationery.users.controller.dto.response.UserResponseDTO
+import com.example.stationery.users.entity.User
+import com.example.stationery.users.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,23 +22,6 @@ class UserService(
         if(!role.isNullOrBlank())
             return userRepository.findByRole(role)
         return userRepository.findAll(Sort.by(("name")))
-    }
-
-    fun findByIdOrNull(id: Long): User? = userRepository.findByIdOrNull(id)
-
-    fun delete(id: Long): Unit = userRepository.deleteById(id)
-
-    fun addRole(id: Long, roleName: String): Boolean {
-        val roleUpper = roleName.uppercase()
-        val user = userRepository.findById(id).orElseThrow {
-            EntityNotFoundException("Produto com id $id não encontrado.")
-        }
-        if (user.roles.any { it.name == roleUpper }) return false
-        val role =
-            roleService.findByNameOrNull(roleUpper) ?: throw BadRequestException("User ${roleUpper} not found")
-        user.roles.add(role)
-        userRepository.save(user)
-        return true
     }
 
     fun login(email: String, password:String): LoginResponseDTO?{

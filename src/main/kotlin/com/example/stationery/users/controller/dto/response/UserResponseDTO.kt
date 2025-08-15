@@ -1,7 +1,6 @@
-package com.example.stationery.users.controller.dto
+package com.example.stationery.users.controller.dto.response
 
-import com.example.stationery.users.User
-
+import com.example.stationery.users.entity.User
 
 data class UserResponseDTO(
     val id: Long,

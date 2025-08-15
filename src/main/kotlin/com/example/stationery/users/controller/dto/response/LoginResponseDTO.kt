@@ -1,4 +1,4 @@
-package com.example.stationery.users.controller.dto
+package com.example.stationery.users.controller.dto.response
 
 data class LoginResponseDTO(
     val token: String,
