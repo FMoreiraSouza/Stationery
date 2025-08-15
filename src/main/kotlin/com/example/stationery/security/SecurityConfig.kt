@@ -51,7 +51,7 @@ class SecurityConfig(
                     .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
-                    .requestMatchers(antMatcher("h2/**")).permitAll()
+                    .requestMatchers(antMatcher("/h/**")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
