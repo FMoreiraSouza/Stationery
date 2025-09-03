@@ -52,9 +52,6 @@ O **Stationery** é uma aplicação Spring Boot desenvolvida em Kotlin para gere
   - Suporte a CORS para integração com frontends.
   - Configuração de um administrador padrão no bootstrap da aplicação.
 
-- **Documentação**:
-  - API documentada automaticamente via Swagger, acessível em `/swagger-ui.html`.
-
 ---
 
 ## 📱 Execução
@@ -113,8 +110,8 @@ A aplicação utiliza o banco de dados H2 em memória para desenvolvimento, com 
 - Clique em **Run** ou abra o terminal e use o comando:
   ```bash
   ./gradlew run
-- A aplicação estará disponível em http://localhost:8080/api para explorar e testar os endpoints.
-- O console H2 estará acessível em http://localhost:8080/api/h2 para operações de banco de dados.
+- A aplicação estará disponível em https://localhost:8080/api para explorar e testar os endpoints.
+- O console H2 estará acessível em https://localhost:8080/api/h2 para operações de banco de dados.
 
 ## 🎥 Apresentação do Sistema
 
