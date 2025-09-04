@@ -54,12 +54,6 @@ O **Stationery** é uma aplicação Spring Boot desenvolvida em Kotlin para gere
 
 ---
 
-## 📱 Execução
-
-A aplicação utiliza o banco de dados H2 em memória para desenvolvimento, com console habilitado em `/h2` para depuração. Os endpoints da API estão disponíveis em `/api` (ex.: `/api/users`, `/api/products`). A autenticação é necessária para a maioria das operações, exceto para cadastro de usuários e login. A interface do Swagger está disponível em `http://localhost:8080/api/swagger-ui.html` para explorar e testar os endpoints da API de forma interativa.
-
----
-
 ## ▶️ Como Rodar o Projeto
 
 ### Pré-requisitos
